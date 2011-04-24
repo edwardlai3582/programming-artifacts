@@ -1,14 +1,14 @@
 package com.google.code.datastrut.list;
 
 import com.google.code.datastrut.Iterator;
-import com.google.code.datastrut.ListElement;
+import com.google.code.datastrut.NavigatableElement;
 import com.google.code.datastrut.Navigable;
 import com.google.code.datastrut.ReverseIterator;
 
 
 public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
 
-    private ListElement<Type> head, tail;
+    private NavigatableElement<Type> head, tail;
 
     private int size;
 
@@ -22,7 +22,7 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
     }
 
     public void insertHead(Type newValue) {
-        ListElement<Type> newElement = new ListElement<Type>(newValue);
+        NavigatableElement<Type> newElement = new NavigatableElement<Type>(newValue);
         if (this.isEmpty()) {
             this.tail = newElement;
         } else {
@@ -34,7 +34,7 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
     }
 
     public void insertTail(Type newValue) {
-        ListElement<Type> newElement = new ListElement<Type>(newValue);
+        NavigatableElement<Type> newElement = new NavigatableElement<Type>(newValue);
         if (this.isEmpty()) {
             this.head = newElement;
         } else {
@@ -60,7 +60,7 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
     public Iterator<Type> getIterator() {
         Iterator<Type> it = new Iterator<Type>() {
 
-            ListElement<Type> current = head;
+            NavigatableElement<Type> current = head;
 
             @Override
             public boolean hasNext() {
@@ -81,9 +81,9 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
     public ReverseIterator<Type> getReverseIterator() {
         ReverseIterator<Type> it = new ReverseIterator<Type>() {
 
-            ListElement<Type> current = tail;
+            NavigatableElement<Type> current = tail;
 
-            ListElement<Type> reverse = head;
+            NavigatableElement<Type> reverse = head;
 
             @Override
             public boolean hasNext() {
