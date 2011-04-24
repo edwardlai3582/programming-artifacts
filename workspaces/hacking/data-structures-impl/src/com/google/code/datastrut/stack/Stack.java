@@ -8,4 +8,8 @@ public interface Stack<Type> extends Sizable<Type>, Iterable<Type> {
     Type pop();
 
     void push(Type newElement);
+
+    Type peek();
+
+    boolean isEmpty();
 }

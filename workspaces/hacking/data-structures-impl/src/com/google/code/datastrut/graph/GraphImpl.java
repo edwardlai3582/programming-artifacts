@@ -5,6 +5,8 @@ import java.util.Random;
 import com.google.code.datastrut.Iterator;
 import com.google.code.datastrut.list.List;
 import com.google.code.datastrut.list.SinglyLinkedList;
+import com.google.code.datastrut.stack.Stack;
+import com.google.code.datastrut.stack.StackImpl;
 
 public class GraphImpl<Type> implements Graph<Type> {
 
@@ -125,10 +127,104 @@ public class GraphImpl<Type> implements Graph<Type> {
         return builder.toString();
     }
 
+    public Vertex<Type> getRootVertex() {
+        return this.vertexes[this.rootIndex];
+    }
+
+    /**
+     * @param value is a value.
+     * @return the vertex instance with the associated value.
+     */
+    public Vertex<Type> getVertexInstance(Type value) {
+        for(Vertex<Type> vertex: vertexes) {
+            if (vertex.getValue().equals(value)) {
+                return vertex;
+            }
+        }
+        throw new IllegalArgumentException("There is no vertex with the value '" + value + "'");
+    }
+
+    /**
+     * @param value is a value.
+     * @return the vertex index of the associated value.
+     */
+    public int getVertexIndex(Type value) {
+        for(int i = 0; i < vertexes.length; i++) {
+            if (vertexes[i].getValue().equals(value)) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("There is no vertex with the value '" + value + "'");
+    }
+
     @Override
     public Iterator<Type> depthFirstSearchIterator() {
-        // TODO Auto-generated method stub
-        return null;
+        Iterator<Type> it = new Iterator<Type>() {
+
+            Stack<Vertex<Type>> stack = new StackImpl<Vertex<Type>>(getRootVertex());
+
+            @Override
+            public boolean hasNext() {
+                if (!stack.isEmpty()) {
+                    Vertex<Type> currentVertex = stack.peek();
+                    while (!stack.isEmpty() && currentVertex != null) {
+                        if (currentVertex.hasBeenVisited()) {
+                            Iterator<Type> it = currentVertex.getConnections().getIterator();
+                            // put the next connection on the stack.
+                            while (it.hasNext()) {
+                                Type nextConnectionValue = it.getNext();
+                                Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
+                                if (!connectionVertex.hasBeenVisited()) {
+                                    return true;
+                                }
+                            }
+                            if (!stack.isEmpty()) {
+                                currentVertex = stack.pop();
+                            }
+                        } else return true;
+                    }
+                    return false;
+
+                } else return false;
+            }
+
+            @Override
+            public Type getNext() {
+                Type value = null;
+                if (!stack.isEmpty()) {
+                    Vertex<Type> currentVertex = stack.peek();
+                    while (!stack.isEmpty() && currentVertex != null) {
+                        if (!currentVertex.hasBeenVisited()) {
+                            value = currentVertex.getValue();
+                            // mark as visited.
+                            currentVertex.setAsVisited();
+                        } else {
+                            Iterator<Type> it = currentVertex.getConnections().getIterator();
+                            // put the next connection on the stack.
+                            while (it.hasNext()) {
+                                Type nextConnectionValue = it.getNext();
+                                Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
+                                if (!connectionVertex.hasBeenVisited()) {
+                                    value = connectionVertex.getValue();
+                                    connectionVertex.setAsVisited();
+                                    stack.push(connectionVertex);
+                                    break;
+                                }
+                            }
+                        }
+                        if (value == null && !stack.isEmpty()) {
+                            // keep searching for a value...
+                            currentVertex = stack.pop();
+                        } else {
+                            // we can break the search as we have a value.
+                            break;
+                        }
+                    }
+                }
+                return value;
+            }
+        };
+        return it;
     }
 
     @Override
@@ -145,5 +241,16 @@ public class GraphImpl<Type> implements Graph<Type> {
         System.out.println("Vertex Set with Connections based on the above connections matrix (-> = root)");
         GraphImpl<String> letterGraph = makeNewGraph(graphVertexes, 2, adjacencyMatrix);
         System.out.println(letterGraph);
+
+        System.out.println("The Depth First Search (DFS) elements");
+        Iterator<String> dfsIterator =  letterGraph.depthFirstSearchIterator();
+        while (dfsIterator.hasNext()) {
+            String value = dfsIterator.getNext();
+            if (dfsIterator.hasNext()) {
+                System.out.print(value + " -> ");
+            } else {
+                System.out.print(value);
+            }
+        }
     }
 }
