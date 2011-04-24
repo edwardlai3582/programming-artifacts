@@ -1,4 +1,4 @@
-package com.google.code.datastrut.list;
+package com.google.code.datastrut.queue;
 
 import com.google.code.datastrut.Iterable;
 import com.google.code.datastrut.Sizable;

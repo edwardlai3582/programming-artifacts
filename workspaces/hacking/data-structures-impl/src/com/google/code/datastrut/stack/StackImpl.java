@@ -1,6 +1,7 @@
-package com.google.code.datastrut.list;
+package com.google.code.datastrut.stack;
 
 import com.google.code.datastrut.Iterator;
+import com.google.code.datastrut.list.Element;
 
 public class StackImpl<Type> implements Stack<Type> {
 
