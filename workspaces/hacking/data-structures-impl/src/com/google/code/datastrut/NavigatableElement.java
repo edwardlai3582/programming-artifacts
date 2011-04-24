@@ -1,20 +1,20 @@
 package com.google.code.datastrut;
 
-public class ListElement<Type> {
+public class NavigatableElement<Type> {
 
-    private ListElement<Type> previous;
+    private NavigatableElement<Type> previous;
     private Type value;
-    private ListElement<Type> next;
+    private NavigatableElement<Type> next;
 
-    public ListElement(Type newValue) {
+    public NavigatableElement(Type newValue) {
         this.value = newValue;
     }
 
-    public ListElement<Type> getPrevious() {
+    public NavigatableElement<Type> getPrevious() {
         return previous;
     }
 
-    public void setPrevious(ListElement<Type> previous) {
+    public void setPrevious(NavigatableElement<Type> previous) {
         this.previous = previous;
     }
 
@@ -22,11 +22,11 @@ public class ListElement<Type> {
         return this.value;
     }
 
-    public ListElement<Type> getNext() {
+    public NavigatableElement<Type> getNext() {
         return this.next;
     }
 
-    public void setNext(ListElement<Type> next) {
+    public void setNext(NavigatableElement<Type> next) {
         this.next = next;
     }
 
@@ -46,7 +46,7 @@ public class ListElement<Type> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ListElement<Type> other = (ListElement) obj;
+        NavigatableElement<Type> other = (NavigatableElement) obj;
         if (value == null) {
             if (other.value != null)
                 return false;
