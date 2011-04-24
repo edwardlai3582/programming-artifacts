@@ -166,9 +166,11 @@ public class GraphImpl<Type> implements Graph<Type> {
             @Override
             public boolean hasNext() {
                 if (!stack.isEmpty()) {
-                    Vertex<Type> currentVertex = stack.peek();
+                    Vertex<Type> currentVertex = stack.pop();
                     Stack<Vertex<Type>> poppedVertex = new StackImpl<Vertex<Type>>();
-                    while (!stack.isEmpty() && currentVertex != null) {
+                    poppedVertex.push(currentVertex);
+                    boolean hasNext = false;
+                    currentVertexSearch: while (currentVertex != null) {
                         if (currentVertex.hasBeenVisited()) {
                             Iterator<Type> it = currentVertex.getConnections().getIterator();
                             // put the next connection on the stack.
@@ -176,24 +178,28 @@ public class GraphImpl<Type> implements Graph<Type> {
                                 Type nextConnectionValue = it.getNext();
                                 Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
                                 if (!connectionVertex.hasBeenVisited()) {
-                                    return true;
+                                    hasNext = true;
+                                    break currentVertexSearch;
                                 }
                             }
                             if (!stack.isEmpty()) {
                                 currentVertex = stack.pop();
                                 poppedVertex.push(currentVertex);
+
+                            } else {
+                                currentVertex = null;
+                                break currentVertexSearch;
                             }
+
                         } else {
-                            while (poppedVertex.size() > 0) {
-                                stack.push(poppedVertex.pop());
-                            }
-                            return true;
+                            hasNext = true;
+                            break;
                         }
                     }
                     while (poppedVertex.size() > 0) {
                         stack.push(poppedVertex.pop());
                     }
-                    return false;
+                    return hasNext;
 
                 } else return false;
             }
