@@ -8,6 +8,14 @@ public class StackImpl<Type> implements Stack<Type> {
     private Element<Type> top;
     private int size;
 
+    public StackImpl() {
+
+    }
+
+    public StackImpl(Type initialTop) {
+        this.push(initialTop);
+    }
+
     @Override
     public int size() {
         return size;
@@ -34,6 +42,16 @@ public class StackImpl<Type> implements Stack<Type> {
         this.top = this.top.getNext();
         this.size--;
         return topValue;
+    }
+
+    @Override
+    public Type peek() {
+        return this.top.getValue();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.size == 0;
     }
 
     @Override

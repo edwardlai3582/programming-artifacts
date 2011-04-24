@@ -6,6 +6,7 @@ public class Vertex<Type> {
 
     private Type value;
     private List<Type> connections;
+    private boolean visited;
 
     public Vertex(Type newValue, List<Type> connections) {
         this.value = newValue;
@@ -14,6 +15,14 @@ public class Vertex<Type> {
 
     public Type getValue() {
         return value;
+    }
+
+    public void setAsVisited() {
+        this.visited = true;
+    }
+
+    public boolean hasBeenVisited() {
+        return visited;
     }
 
     @Override
@@ -47,7 +56,7 @@ public class Vertex<Type> {
 
     @Override
     public String toString() {
-        return "Vertex [value=" + value + ", connections=" + connections + "]";
+        return "Vertex " + (visited ? "Visited" : "Not Visited") +  " [value=" + value + ", connections=" + connections + "]";
     }
 
 }
