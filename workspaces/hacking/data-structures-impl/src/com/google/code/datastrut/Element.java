@@ -1,32 +1,28 @@
-package com.google.code.datastrut.list;
+package com.google.code.datastrut;
 
-public class ListElement<Type> {
+public class Element<Type> {
 
-    private ListElement<Type> previous;
-    private Type value;
-    private ListElement<Type> next;
+    protected Type value;
+    protected Element<Type> next;
 
-    public ListElement(Type newValue) {
+    public Element(Type newValue) {
         this.value = newValue;
     }
 
-    public ListElement<Type> getPrevious() {
-        return previous;
-    }
-
-    public void setPrevious(ListElement<Type> previous) {
-        this.previous = previous;
+    public Element(Type newValue, Element<Type> next) {
+        this.value = newValue;
+        this.next = next;
     }
 
     public Type getValue() {
         return this.value;
     }
 
-    public ListElement<Type> getNext() {
+    public Element<Type> getNext() {
         return this.next;
     }
 
-    public void setNext(ListElement<Type> next) {
+    public void setNext(Element<Type> next) {
         this.next = next;
     }
 
@@ -34,6 +30,7 @@ public class ListElement<Type> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((next == null) ? 0 : next.hashCode());
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
@@ -46,7 +43,12 @@ public class ListElement<Type> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ListElement<Type> other = (ListElement) obj;
+        Element other = (Element) obj;
+        if (next == null) {
+            if (other.next != null)
+                return false;
+        } else if (!next.equals(other.next))
+            return false;
         if (value == null) {
             if (other.value != null)
                 return false;
@@ -57,7 +59,6 @@ public class ListElement<Type> {
 
     @Override
     public String toString() {
-        return "ListElement [previous=" + previous + ", value=" + value + ", next=" + next + "]";
+        return "Node [value=" + value + ", next=" + next + "]";
     }
-
 }

@@ -1,6 +1,7 @@
 package com.google.code.datastrut.list;
 
 import com.google.code.datastrut.Iterator;
+import com.google.code.datastrut.ListElement;
 import com.google.code.datastrut.Navigable;
 import com.google.code.datastrut.ReverseIterator;
 

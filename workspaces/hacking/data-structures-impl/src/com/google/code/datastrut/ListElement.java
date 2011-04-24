@@ -1,28 +1,32 @@
-package com.google.code.datastrut.list;
+package com.google.code.datastrut;
 
-public class Element<Type> {
+public class ListElement<Type> {
 
-    protected Type value;
-    protected Element<Type> next;
+    private ListElement<Type> previous;
+    private Type value;
+    private ListElement<Type> next;
 
-    public Element(Type newValue) {
+    public ListElement(Type newValue) {
         this.value = newValue;
     }
 
-    public Element(Type newValue, Element<Type> next) {
-        this.value = newValue;
-        this.next = next;
+    public ListElement<Type> getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(ListElement<Type> previous) {
+        this.previous = previous;
     }
 
     public Type getValue() {
         return this.value;
     }
 
-    public Element<Type> getNext() {
+    public ListElement<Type> getNext() {
         return this.next;
     }
 
-    public void setNext(Element<Type> next) {
+    public void setNext(ListElement<Type> next) {
         this.next = next;
     }
 
@@ -30,7 +34,6 @@ public class Element<Type> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((next == null) ? 0 : next.hashCode());
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
@@ -43,12 +46,7 @@ public class Element<Type> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Element other = (Element) obj;
-        if (next == null) {
-            if (other.next != null)
-                return false;
-        } else if (!next.equals(other.next))
-            return false;
+        ListElement<Type> other = (ListElement) obj;
         if (value == null) {
             if (other.value != null)
                 return false;
@@ -59,6 +57,7 @@ public class Element<Type> {
 
     @Override
     public String toString() {
-        return "Node [value=" + value + ", next=" + next + "]";
+        return "ListElement [previous=" + previous + ", value=" + value + ", next=" + next + "]";
     }
+
 }
