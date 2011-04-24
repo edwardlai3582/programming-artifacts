@@ -1,4 +1,4 @@
-package com.google.code.datastrut.list;
+package com.google.code.datastrut.stack;
 
 import com.google.code.datastrut.Iterable;
 import com.google.code.datastrut.Sizable;
