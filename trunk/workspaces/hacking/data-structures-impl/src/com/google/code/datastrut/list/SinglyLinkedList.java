@@ -59,9 +59,13 @@ public class SinglyLinkedList<Type> implements List<Type> {
         while(current != null) {
             Type val = current.getValue();
             current = current.getNext();
-            builder.append(val + ", ");
+            if (current != null) {
+                builder.append(val + ", ");
+            } else {
+                builder.append(val);
+            }
         }
-        return builder.substring(0, builder.length()-2);
+        return builder.toString();
     }
 
     @Override
