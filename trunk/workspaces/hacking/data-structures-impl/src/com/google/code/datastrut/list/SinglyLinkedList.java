@@ -1,5 +1,6 @@
 package com.google.code.datastrut.list;
 
+import com.google.code.datastrut.Element;
 import com.google.code.datastrut.Iterator;
 
 public class SinglyLinkedList<Type> implements List<Type> {

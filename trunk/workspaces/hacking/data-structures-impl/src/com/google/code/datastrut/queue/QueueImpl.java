@@ -1,7 +1,7 @@
 package com.google.code.datastrut.queue;
 
+import com.google.code.datastrut.Element;
 import com.google.code.datastrut.Iterator;
-import com.google.code.datastrut.list.Element;
 
 public class QueueImpl<Type> implements Queue<Type> {
 
