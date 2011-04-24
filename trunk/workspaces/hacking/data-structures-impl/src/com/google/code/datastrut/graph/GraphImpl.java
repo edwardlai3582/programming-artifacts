@@ -167,6 +167,7 @@ public class GraphImpl<Type> implements Graph<Type> {
             public boolean hasNext() {
                 if (!stack.isEmpty()) {
                     Vertex<Type> currentVertex = stack.peek();
+                    Stack<Vertex<Type>> poppedVertex = new StackImpl<Vertex<Type>>();
                     while (!stack.isEmpty() && currentVertex != null) {
                         if (currentVertex.hasBeenVisited()) {
                             Iterator<Type> it = currentVertex.getConnections().getIterator();
@@ -180,8 +181,17 @@ public class GraphImpl<Type> implements Graph<Type> {
                             }
                             if (!stack.isEmpty()) {
                                 currentVertex = stack.pop();
+                                poppedVertex.push(currentVertex);
                             }
-                        } else return true;
+                        } else {
+                            while (poppedVertex.size() > 0) {
+                                stack.push(poppedVertex.pop());
+                            }
+                            return true;
+                        }
+                    }
+                    while (poppedVertex.size() > 0) {
+                        stack.push(poppedVertex.pop());
                     }
                     return false;
 
