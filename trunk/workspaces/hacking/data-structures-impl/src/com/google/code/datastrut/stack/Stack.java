@@ -10,6 +10,4 @@ public interface Stack<Type> extends Sizable<Type>, Iterable<Type> {
     void push(Type newElement);
 
     Type peek();
-
-    boolean isEmpty();
 }

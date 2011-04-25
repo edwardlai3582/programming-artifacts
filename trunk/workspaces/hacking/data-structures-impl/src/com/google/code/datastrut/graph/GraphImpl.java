@@ -5,6 +5,8 @@ import java.util.Random;
 import com.google.code.datastrut.Iterator;
 import com.google.code.datastrut.list.List;
 import com.google.code.datastrut.list.SinglyLinkedList;
+import com.google.code.datastrut.queue.Queue;
+import com.google.code.datastrut.queue.QueueImpl;
 import com.google.code.datastrut.stack.Stack;
 import com.google.code.datastrut.stack.StackImpl;
 
@@ -127,6 +129,9 @@ public class GraphImpl<Type> implements Graph<Type> {
         return builder.toString();
     }
 
+    /**
+     * @return the root vertex chosen in the graph.
+     */
     public Vertex<Type> getRootVertex() {
         return this.vertexes[this.rootIndex];
     }
@@ -157,8 +162,18 @@ public class GraphImpl<Type> implements Graph<Type> {
         throw new IllegalArgumentException("There is no vertex with the value '" + value + "'");
     }
 
+    /**
+     * Resets the state of visited vertexes to not visited.
+     */
+    private void resetVisitedStates() {
+        for (Vertex<Type> vertex : vertexes) {
+            vertex.setAsNotVisited();
+        }
+    }
+
     @Override
     public Iterator<Type> depthFirstSearchIterator() {
+        this.resetVisitedStates();
         Iterator<Type> it = new Iterator<Type>() {
 
             Stack<Vertex<Type>> stack = new StackImpl<Vertex<Type>>(getRootVertex());
@@ -196,7 +211,7 @@ public class GraphImpl<Type> implements Graph<Type> {
                             break;
                         }
                     }
-                    while (poppedVertex.size() > 0) {
+                    while (!poppedVertex.isEmpty()) {
                         stack.push(poppedVertex.pop());
                     }
                     return hasNext;
@@ -245,8 +260,83 @@ public class GraphImpl<Type> implements Graph<Type> {
 
     @Override
     public Iterator<Type> breadthFirstSearchIterator() {
-        // TODO Auto-generated method stub
-        return null;
+        this.resetVisitedStates();
+        Iterator<Type> it = new Iterator<Type>() {
+
+            Queue<Vertex<Type>> queue = new QueueImpl<Vertex<Type>>();
+            Vertex<Type> currentlyWorking = getRootVertex();
+
+            @Override
+            public boolean hasNext() {
+                boolean hasNext = false;
+                if (currentlyWorking != null) {
+                    Queue<Vertex<Type>> dequeuedVertexes = new QueueImpl<Vertex<Type>>();
+                    currentVertexSearch: while (currentlyWorking != null) {
+                        if (currentlyWorking.hasBeenVisited()) {
+                            Iterator<Type> it = currentlyWorking.getConnections().getIterator();
+                            // put the next connection on the stack.
+                            while (it.hasNext()) {
+                                Type nextConnectionValue = it.getNext();
+                                Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
+                                if (!connectionVertex.hasBeenVisited()) {
+                                    hasNext = true;
+                                    break currentVertexSearch;
+                                }
+                            }
+                            if (!queue.isEmpty()) {
+                                currentlyWorking = queue.dequeue();
+                                dequeuedVertexes.enqueue(currentlyWorking);
+                            } else {
+                                currentlyWorking = null;
+                            }
+
+                        } else {
+                            hasNext = true;
+                            break;
+                        }
+                    }
+                    while (!dequeuedVertexes.isEmpty()) {
+                        queue.enqueue(dequeuedVertexes.dequeue());
+                    }
+                    return hasNext;
+
+                } else return false;
+            }
+
+            @Override
+            public Type getNext() {
+                Type value = null;
+                while (currentlyWorking != null) {
+                    if (!currentlyWorking.hasBeenVisited()) {
+                        value = currentlyWorking.getValue();
+                        // mark as visited.
+                        currentlyWorking.setAsVisited();
+                    } else {
+                        Iterator<Type> it = currentlyWorking.getConnections().getIterator();
+                        // put the next connection on the stack.
+                        while (it.hasNext()) {
+                            Type nextConnectionValue = it.getNext();
+                            Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
+                            if (!connectionVertex.hasBeenVisited()) {
+                                value = connectionVertex.getValue();
+                                connectionVertex.setAsVisited();
+                                queue.enqueue(connectionVertex);
+                                break;
+                            }
+                        }
+                    }
+                    if (value == null && !queue.isEmpty()) {
+                        // keep searching for a value...
+                        currentlyWorking = queue.dequeue();
+                    } else {
+                        // we can break the search as we have a value.
+                        break;
+                    }
+                }
+                return value;
+            }
+        };
+        return it;
     }
 
     public static void main(String[] args) {
@@ -263,6 +353,18 @@ public class GraphImpl<Type> implements Graph<Type> {
         while (dfsIterator.hasNext()) {
             String value = dfsIterator.getNext();
             if (dfsIterator.hasNext()) {
+                System.out.print(value + " -> ");
+            } else {
+                System.out.print(value);
+            }
+        }
+
+        System.out.println("");
+        System.out.println("The Breadth First Search (BFS) elements");
+        Iterator<String> bfsIterator =  letterGraph.breadthFirstSearchIterator();
+        while (bfsIterator.hasNext()) {
+            String value = bfsIterator.getNext();
+            if (bfsIterator.hasNext()) {
                 System.out.print(value + " -> ");
             } else {
                 System.out.print(value);

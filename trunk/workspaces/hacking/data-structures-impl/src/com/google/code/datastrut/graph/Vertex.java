@@ -21,6 +21,10 @@ public class Vertex<Type> {
         this.visited = true;
     }
 
+    public void setAsNotVisited() {
+        this.visited = false;
+    }
+
     public boolean hasBeenVisited() {
         return visited;
     }

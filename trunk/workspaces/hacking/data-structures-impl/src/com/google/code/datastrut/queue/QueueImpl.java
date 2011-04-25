@@ -72,6 +72,12 @@ public class QueueImpl<Type> implements Queue<Type> {
     public int size() {
         return this.size;
     }
+    
+
+    @Override
+    public boolean isEmpty() {
+        return this.size == 0;
+    }
 
     @Override
     public Type front() {
@@ -91,7 +97,12 @@ public class QueueImpl<Type> implements Queue<Type> {
         // printing with iterator
         Iterator<Integer> it = line.getIterator();
         while(it.hasNext()) {
-            System.out.print(it.getNext() + ", ");
+            Integer value = it.getNext();
+            if (it.hasNext()) {
+                System.out.print(value + ", ");
+            } else {
+                System.out.print(value);
+            }
         }
         System.out.println();
         for (int i = 0; i < 10; i++) {
