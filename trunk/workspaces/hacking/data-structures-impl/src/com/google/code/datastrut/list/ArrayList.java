@@ -4,7 +4,7 @@ import com.google.code.datastrut.IndexOutOfBoundsException;
 import com.google.code.datastrut.Iterator;
 import com.google.code.datastrut.sort.Sortable;
 
-public class ArrayList<Type> implements List<Type>, Indexable<Type> {
+public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Type> {
 
     private Type[] arrayList;
     private int capacity;
@@ -140,6 +140,30 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type> {
             System.out.println(" -> Removing " + value);
             list.remove(value);
         }
+    }
+
+    @Override
+    public List<Sortable<Type>> bubbleSort() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Sortable<Type>> insertionSort() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Sortable<Type>> quickSort() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Sortable<Type>> mergeSort() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
