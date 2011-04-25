@@ -15,6 +15,12 @@ public class SinglyLinkedList<Type> implements List<Type> {
     }
 
     @Override
+    public boolean isEmpty() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
     public void add(Type newValue) {
         Element<Type> newElement = new Element<Type>(newValue);
         if (this.size == 0) {
@@ -114,4 +120,5 @@ public class SinglyLinkedList<Type> implements List<Type> {
         }
         
     }
+
 }

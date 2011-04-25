@@ -12,4 +12,5 @@ public interface Queue<Type> extends Sizable<Type>, Iterable<Type> {
     Type front();
 
     Type back();
+
 }
