@@ -1,14 +1,15 @@
 package com.google.code.datastrut.graph;
 
+import java.util.Iterator;
 import java.util.Random;
 
-import com.google.code.datastrut.Iterator;
 import com.google.code.datastrut.list.List;
 import com.google.code.datastrut.list.SinglyLinkedList;
 import com.google.code.datastrut.queue.Queue;
 import com.google.code.datastrut.queue.QueueImpl;
 import com.google.code.datastrut.stack.Stack;
 import com.google.code.datastrut.stack.StackImpl;
+import com.google.common.base.Preconditions;
 
 public class GraphImpl<Type> implements Graph<Type> {
 
@@ -34,6 +35,10 @@ public class GraphImpl<Type> implements Graph<Type> {
      * connections.
      */
     public static GraphImpl<String> makeNewGraph(String[] vertexValues, int rootIndex, boolean[][] adjacencyMatrix) {
+        Preconditions.checkArgument(vertexValues != null, "The vertex values must be provided.");
+        Preconditions.checkArgument(rootIndex >= 0, "The root index must be greater or equals to 0.");
+        Preconditions.checkArgument(adjacencyMatrix != null, "The adjacency matrix must be provided.");
+
         GraphImpl<String> newGraph = new GraphImpl<String>();
         newGraph.rootIndex = rootIndex;
         newGraph.vertexes = new Vertex[vertexValues.length];
@@ -50,7 +55,11 @@ public class GraphImpl<Type> implements Graph<Type> {
      * @param vertexIndex is the index of the vertex value to build the connection list.
      * @return a list of vertex values based on the connectivity of the given index on the adjacency matrix.
      */
-    public static List<String> makeConnections(String[] vertexValues, boolean[][] adjacencyMatrix, int vertexIndex) {
+    private static List<String> makeConnections(String[] vertexValues, boolean[][] adjacencyMatrix, int vertexIndex) {
+        Preconditions.checkArgument(vertexValues != null, "The vertex values must be provided.");
+        Preconditions.checkArgument(adjacencyMatrix != null, "The adjacency matrix must be provided.");
+        Preconditions.checkArgument(vertexIndex >= 0, "The vertex index must be greater than or equals to 0.");
+
         List<String> connections = new SinglyLinkedList<String>();
         for (int i = 0; i < adjacencyMatrix.length; i++) {
             if (adjacencyMatrix[vertexIndex][i]) {
@@ -65,6 +74,8 @@ public class GraphImpl<Type> implements Graph<Type> {
      * @return a random adjacency matrix of connections for the vertexes without circular connections.
      */
     public static boolean[][] makeRandomAdjacencyMatrix(String[] vertexValues) {
+        Preconditions.checkArgument(vertexValues != null, "The vertex values must be provided.");
+
         final int numberOfVertexes = vertexValues.length;
         boolean[][] adjacencyMatrix = new boolean[numberOfVertexes][numberOfVertexes];
         for (int i = 0; i < numberOfVertexes; i++) {
@@ -82,6 +93,9 @@ public class GraphImpl<Type> implements Graph<Type> {
      * @param adjacencyMatrix the adjacency matrix.
      */
     public static void printAdjacencyMatrix(String[] vertexes, boolean[][] adjacencyMatrix) {
+        Preconditions.checkArgument(vertexes != null, "The vertex values must be provided.");
+        Preconditions.checkArgument(adjacencyMatrix != null, "The adjacency matrix must be provided.");
+
         StringBuilder builder = new StringBuilder();
         builder.append("\t");
         for (int i = 0; i < vertexes.length; i++) {
@@ -116,9 +130,9 @@ public class GraphImpl<Type> implements Graph<Type> {
             builder.append(vertexes[i].getValue());
             builder.append(": ");
             List<Type> connections = vertexes[i].getConnections();
-            Iterator<Type> it = connections.getIterator();
+            Iterator<Type> it = connections.iterator();
             while(it.hasNext()) {
-                Type value = it.getNext();
+                Type value = it.next();
                 builder.append(value);
                 if (it.hasNext()) {
                     builder.append(", ");
@@ -187,10 +201,10 @@ public class GraphImpl<Type> implements Graph<Type> {
                     boolean hasNext = false;
                     currentVertexSearch: while (currentVertex != null) {
                         if (currentVertex.hasBeenVisited()) {
-                            Iterator<Type> it = currentVertex.getConnections().getIterator();
+                            Iterator<Type> it = currentVertex.getConnections().iterator();
                             // put the next connection on the stack.
                             while (it.hasNext()) {
-                                Type nextConnectionValue = it.getNext();
+                                Type nextConnectionValue = it.next();
                                 Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
                                 if (!connectionVertex.hasBeenVisited()) {
                                     hasNext = true;
@@ -220,7 +234,7 @@ public class GraphImpl<Type> implements Graph<Type> {
             }
 
             @Override
-            public Type getNext() {
+            public Type next() {
                 Type value = null;
                 if (!stack.isEmpty()) {
                     Vertex<Type> currentVertex = stack.peek();
@@ -230,10 +244,10 @@ public class GraphImpl<Type> implements Graph<Type> {
                             // mark as visited.
                             currentVertex.setAsVisited();
                         } else {
-                            Iterator<Type> it = currentVertex.getConnections().getIterator();
+                            Iterator<Type> it = currentVertex.getConnections().iterator();
                             // put the next connection on the stack.
                             while (it.hasNext()) {
-                                Type nextConnectionValue = it.getNext();
+                                Type nextConnectionValue = it.next();
                                 Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
                                 if (!connectionVertex.hasBeenVisited()) {
                                     value = connectionVertex.getValue();
@@ -254,6 +268,12 @@ public class GraphImpl<Type> implements Graph<Type> {
                 }
                 return value;
             }
+
+            @Override
+            public void remove() {
+                // TODO Auto-generated method stub
+                
+            }
         };
         return it;
     }
@@ -273,10 +293,10 @@ public class GraphImpl<Type> implements Graph<Type> {
                     Queue<Vertex<Type>> dequeuedVertexes = new QueueImpl<Vertex<Type>>();
                     currentVertexSearch: while (currentlyWorking != null) {
                         if (currentlyWorking.hasBeenVisited()) {
-                            Iterator<Type> it = currentlyWorking.getConnections().getIterator();
+                            Iterator<Type> it = currentlyWorking.getConnections().iterator();
                             // put the next connection on the stack.
                             while (it.hasNext()) {
-                                Type nextConnectionValue = it.getNext();
+                                Type nextConnectionValue = it.next();
                                 Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
                                 if (!connectionVertex.hasBeenVisited()) {
                                     hasNext = true;
@@ -304,7 +324,7 @@ public class GraphImpl<Type> implements Graph<Type> {
             }
 
             @Override
-            public Type getNext() {
+            public Type next() {
                 Type value = null;
                 while (currentlyWorking != null) {
                     if (!currentlyWorking.hasBeenVisited()) {
@@ -312,10 +332,10 @@ public class GraphImpl<Type> implements Graph<Type> {
                         // mark as visited.
                         currentlyWorking.setAsVisited();
                     } else {
-                        Iterator<Type> it = currentlyWorking.getConnections().getIterator();
+                        Iterator<Type> it = currentlyWorking.getConnections().iterator();
                         // put the next connection on the stack.
                         while (it.hasNext()) {
-                            Type nextConnectionValue = it.getNext();
+                            Type nextConnectionValue = it.next();
                             Vertex<Type> connectionVertex = getVertexInstance(nextConnectionValue);
                             if (!connectionVertex.hasBeenVisited()) {
                                 value = connectionVertex.getValue();
@@ -335,6 +355,12 @@ public class GraphImpl<Type> implements Graph<Type> {
                 }
                 return value;
             }
+
+            @Override
+            public void remove() {
+                // TODO Auto-generated method stub
+                
+            }
         };
         return it;
     }
@@ -351,7 +377,7 @@ public class GraphImpl<Type> implements Graph<Type> {
         System.out.println("The Depth First Search (DFS) elements");
         Iterator<String> dfsIterator =  letterGraph.depthFirstSearchIterator();
         while (dfsIterator.hasNext()) {
-            String value = dfsIterator.getNext();
+            String value = dfsIterator.next();
             if (dfsIterator.hasNext()) {
                 System.out.print(value + " -> ");
             } else {
@@ -363,7 +389,7 @@ public class GraphImpl<Type> implements Graph<Type> {
         System.out.println("The Breadth First Search (BFS) elements");
         Iterator<String> bfsIterator =  letterGraph.breadthFirstSearchIterator();
         while (bfsIterator.hasNext()) {
-            String value = bfsIterator.getNext();
+            String value = bfsIterator.next();
             if (bfsIterator.hasNext()) {
                 System.out.print(value + " -> ");
             } else {

@@ -1,5 +1,7 @@
 package com.google.code.datastrut.sort;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Sorts the given arrayList with the given comparator.
  * The description of the algorithm can be seen at http://www.youtube.com/watch?v=P00xJgWzz2c
@@ -30,9 +32,9 @@ public final class BubbleSortStrategy extends AbstractSortStrategy {
      * @param comparator is the comparator that compares elements of the given type.
      */
     public <Type> void sort(Type[] arrayList, Comparator<Type> comparator) {
-        if (arrayList == null || comparator == null) {
-            throw new IllegalArgumentException("You need to provide both the list and the comparator.");
-        }
+        Preconditions.checkArgument(arrayList != null, "The array list must be provided to swap.");
+        Preconditions.checkArgument(comparator != null, "The comparator must be provided.");
+
         if (arrayList.length == 0 || arrayList.length == 1) {
             return;
         }

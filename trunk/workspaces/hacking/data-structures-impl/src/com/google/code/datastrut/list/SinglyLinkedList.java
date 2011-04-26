@@ -1,7 +1,10 @@
 package com.google.code.datastrut.list;
 
+import java.util.Iterator;
+
 import com.google.code.datastrut.Element;
-import com.google.code.datastrut.Iterator;
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 
 public class SinglyLinkedList<Type> implements List<Type> {
 
@@ -16,14 +19,13 @@ public class SinglyLinkedList<Type> implements List<Type> {
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
+        return size == 0;
     }
 
     @Override
     public void add(Type newValue) {
         Element<Type> newElement = new Element<Type>(newValue);
-        if (this.size == 0) {
+        if (this.isEmpty()) {
             this.head = newElement;
         } else {
             Element<Type> current = this.head;
@@ -37,9 +39,8 @@ public class SinglyLinkedList<Type> implements List<Type> {
 
     @Override
     public boolean remove(Type element) {
-        if (this.size == 0) {
-            throw new IllegalStateException("The list is empty!");
-        }
+        Preconditions.checkState(!this.isEmpty(), "The list is empty!");
+
         Element<Type> current = this.head, previous = null;
         boolean found = false;
         while(!current.getValue().equals(element) && current.getNext() != null) {
@@ -75,7 +76,7 @@ public class SinglyLinkedList<Type> implements List<Type> {
     }
 
     @Override
-    public synchronized Iterator<Type> getIterator() {
+    public synchronized Iterator<Type> iterator() {
         // singly-linked list iterator
         Iterator<Type> it = new Iterator<Type>() {
 
@@ -87,10 +88,16 @@ public class SinglyLinkedList<Type> implements List<Type> {
             }
 
             @Override
-            public Type getNext() {
+            public Type next() {
                 Type val = this.current.getValue();
                 this.current = this.current.getNext();
                 return val;
+            }
+
+            @Override
+            public void remove() {
+                // TODO Auto-generated method stub
+                
             }
             
         };
@@ -103,22 +110,11 @@ public class SinglyLinkedList<Type> implements List<Type> {
         for (int i = 1; i <= 10; i++) {
             line.add(i);
             System.out.println(line);
-            System.out.println();
         }
-
-//        for (int i = 1; i <= 10; i++) {
-//            System.out.println(line);
-//            boolean removed = line.remove(i);
-//            System.out.println("Removed " + i + "? " + removed);
-//            System.out.println();
-//        }
 
         // Iterate with Iterators
-        Iterator<Integer> it = line.getIterator();
-        while(it.hasNext()) {
-            System.out.println(it.getNext() + ", ");
-        }
-        
+        System.out.println("All the elements joined by Google Guava");
+        System.out.println(Joiner.on(", ").join(line));
     }
 
 }
