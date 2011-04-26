@@ -112,12 +112,7 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
         builder.append(currentSize );
 
         builder.append(" [");
-        for (int i = 0; i < this.arrayList.length - 1; i++) {
-            if (arrayList[i] != null) {
-                builder.append(arrayList[i] + ", ");
-            }
-        }
-        builder.delete(builder.length() - 2, builder.length());
+        Joiner.on(", ").skipNulls().appendTo(builder, this.arrayList);
         builder.append("]");
         return builder.toString();
     }

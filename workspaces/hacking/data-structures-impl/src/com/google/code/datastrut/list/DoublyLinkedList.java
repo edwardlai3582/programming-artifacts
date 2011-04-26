@@ -117,7 +117,7 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("DoublyLinkedList: [");
-        builder.append(Joiner.on(", ").join(this));
+        Joiner.on(", ").appendTo(builder, this);
         builder.append("]");
         return builder.toString();
     }
