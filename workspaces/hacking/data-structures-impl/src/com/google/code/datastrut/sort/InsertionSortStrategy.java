@@ -2,29 +2,29 @@ package com.google.code.datastrut.sort;
 
 /**
  * Sorts the given arrayList with the given comparator.
- * The description of the algorithm can be seen at http://www.youtube.com/watch?v=P00xJgWzz2c
+ * The description of the algorithm can be seen at http://www.youtube.com/watch?v=c4BRHC7kTaQ
  *
  * @author Marcello de Sales (marcello.desales@gmail.com)
  *
  */
-public final class BubbleSortStrategy extends AbstractSortStrategy {
+public final class InsertionSortStrategy extends AbstractSortStrategy {
 
-    public static final BubbleSortStrategy singleton = new BubbleSortStrategy();
+    public static final InsertionSortStrategy singleton = new InsertionSortStrategy();
 
-    private BubbleSortStrategy() {
+    private InsertionSortStrategy() {
 
     }
 
     /**
      * @return The singleton instance of this sort strategy.
      */
-    public static BubbleSortStrategy getInstance() {
+    public static InsertionSortStrategy getInstance() {
         return singleton;
     }
 
     /**
      * Sorts the given arrayList with the given comparator.
-     * The description of the algorithm can be seen at http://www.youtube.com/watch?v=P00xJgWzz2c
+     * The description of the algorithm can be seen at http://www.youtube.com/watch?v=c4BRHC7kTaQ
      * @param <Type> any type.
      * @param arrayList the array list of the given type.
      * @param comparator is the comparator that compares elements of the given type.
@@ -36,14 +36,13 @@ public final class BubbleSortStrategy extends AbstractSortStrategy {
         if (arrayList.length == 0 || arrayList.length == 1) {
             return;
         }
-        for (int i = 0; i < arrayList.length; i++) {
-            for (int j = 0; j < arrayList.length-1; j++) {
-                if (arrayList[j] == null || arrayList[j + 1] == null) {
-                    break;
-                }
-                if (comparator.compare(arrayList[j], arrayList[j + 1]) > 0) {
-                    swap(arrayList, j, j + 1);
-                }
+        for (int i = 1; i < arrayList.length; i++) {
+            int j = i;
+            while (j > 0 && arrayList[j] != null && arrayList[j - 1] != null && 
+                    comparator.compare(arrayList[j-1], arrayList[j]) > 0) {
+
+                swap(arrayList, j, j-1);
+                j--;
             }
         }
     }
