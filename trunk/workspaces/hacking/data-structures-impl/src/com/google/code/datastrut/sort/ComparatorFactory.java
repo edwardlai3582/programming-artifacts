@@ -10,6 +10,9 @@ public class ComparatorFactory {
         return new Comparator<Integer>() {
             @Override
             public int compare(Integer obj, Integer other) {
+                if (obj == null || other == null) {
+                    throw new IllegalArgumentException("Can't compare the elements as one parameter is null");
+                }
                 return obj - other;
             }
         };
@@ -23,6 +26,9 @@ public class ComparatorFactory {
         return new Comparator<String>() {
             @Override
             public int compare(String obj, String other) {
+                if (obj == null || other == null) {
+                    throw new IllegalArgumentException("Can't compare the elements as one parameter is null");
+                }
                 return (int)obj.charAt(0) - (int)other.charAt(0);
             }
         };
