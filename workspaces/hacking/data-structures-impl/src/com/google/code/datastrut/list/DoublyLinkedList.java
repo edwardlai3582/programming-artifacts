@@ -1,9 +1,12 @@
 package com.google.code.datastrut.list;
 
-import com.google.code.datastrut.Iterator;
-import com.google.code.datastrut.NavigatableElement;
+import java.util.Iterator;
+
 import com.google.code.datastrut.Navigable;
+import com.google.code.datastrut.NavigatableElement;
 import com.google.code.datastrut.ReverseIterator;
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 
 
 public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
@@ -22,6 +25,8 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
     }
 
     public void insertHead(Type newValue) {
+        Preconditions.checkArgument(newValue != null, "The initial value must be provided.");
+
         NavigatableElement<Type> newElement = new NavigatableElement<Type>(newValue);
         if (this.isEmpty()) {
             this.tail = newElement;
@@ -34,6 +39,8 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
     }
 
     public void insertTail(Type newValue) {
+        Preconditions.checkArgument(newValue != null, "The new tail value must be provided.");
+
         NavigatableElement<Type> newElement = new NavigatableElement<Type>(newValue);
         if (this.isEmpty()) {
             this.head = newElement;
@@ -47,6 +54,7 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
 
     @Override
     public void add(Type newValue) {
+        Preconditions.checkArgument(newValue != null, "The new value must be provided.");
         this.insertTail(newValue);
     }
 
@@ -57,7 +65,7 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
     }
 
     @Override
-    public Iterator<Type> getIterator() {
+    public Iterator<Type> iterator() {
         Iterator<Type> it = new Iterator<Type>() {
 
             NavigatableElement<Type> current = head;
@@ -68,10 +76,16 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
             }
 
             @Override
-            public Type getNext() {
+            public Type next() {
                 Type val = this.current.getValue();
                 this.current = this.current.getNext();
                 return val;
+            }
+
+            @Override
+            public void remove() {
+                // TODO Auto-generated method stub
+                
             }
         };
         return it;
@@ -83,43 +97,27 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
 
             NavigatableElement<Type> current = tail;
 
-            NavigatableElement<Type> reverse = head;
-
-            @Override
-            public boolean hasNext() {
-                return this.current != null;
-            }
-
-            @Override
-            public Type getNext() {
-                Type val = this.current.getValue();
-                this.current = this.current.getNext();
-                return val;
-            }
-
             @Override
             public boolean hasPrevious() {
-                return reverse != null;
+                return current != null;
             }
 
             @Override
-            public Type getPrevious() {
-                Type val = this.reverse.getValue();
-                this.reverse = this.reverse.getPrevious();
+            public Type previous() {
+                Type val = this.current.getValue();
+                this.current = this.current.getPrevious();
                 return val;
             }
+
         };
         return it;
     }
 
     @Override
     public String toString() {
-        Iterator<Type> it = this.getIterator();
         StringBuilder builder = new StringBuilder();
-        builder.append("DoublyLinkedList: [ ");
-        while (it.hasNext()) {
-            builder.append(it.getNext() + ", ");
-        }
+        builder.append("DoublyLinkedList: [");
+        builder.append(Joiner.on(", ").join(this));
         builder.append("]");
         return builder.toString();
     }
@@ -129,7 +127,6 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
         for (int i = 1; i <= 10; i++) {
             line.add(i);
             System.out.println(line);
-            System.out.println();
         }
 
 //        for (int i = 1; i <= 10; i++) {
@@ -140,15 +137,20 @@ public class DoublyLinkedList<Type> implements List<Type>, Navigable<Type> {
 //        }
 
         // Iterate with Iterators
-        Iterator<Integer> it = line.getIterator();
-        while(it.hasNext()) {
-            System.out.println(it.getNext() + ", ");
+        for(Integer value : line) {
+            System.out.print(value + ", ");
         }
 
+        System.out.println("");
+        System.out.println("All the elements joined by Google Guava");
+        System.out.println(Joiner.on(", ").join(line));
+
         // Iterate with Iterators
+        System.out.println("");
+        System.out.println("Reverting...");
         ReverseIterator<Integer> rit = line.getReverseIterator();
         while(rit.hasPrevious()) {
-            System.out.println(rit.getPrevious() + ", ");
+            System.out.print(rit.previous() + ", ");
         }
     }
 

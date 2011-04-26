@@ -1,6 +1,6 @@
 package com.google.code.datastrut.graph;
 
-import com.google.code.datastrut.Iterator;
+import java.util.Iterator;
 
 public interface Graph<Type> {
 

@@ -1,6 +1,8 @@
 package com.google.code.datastrut.graph;
 
 import com.google.code.datastrut.list.List;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 
 public class Vertex<Type> {
 
@@ -9,6 +11,9 @@ public class Vertex<Type> {
     private boolean visited;
 
     public Vertex(Type newValue, List<Type> connections) {
+        Preconditions.checkArgument(newValue != null, "The value of the vertex must be provided.");
+        Preconditions.checkArgument(connections != null, "The connections of the vertex must be provided.");
+
         this.value = newValue;
         this.connections = connections;
     }
@@ -60,7 +65,8 @@ public class Vertex<Type> {
 
     @Override
     public String toString() {
-        return "Vertex " + (visited ? "Visited" : "Not Visited") +  " [value=" + value + ", connections=" + connections + "]";
+        return Objects.toStringHelper(this).add("value", this.value).add("connections", this.connections)
+            .add("visited", this.visited).toString();
     }
 
 }

@@ -1,7 +1,10 @@
 package com.google.code.datastrut.stack;
 
+import java.util.Iterator;
+
 import com.google.code.datastrut.Element;
-import com.google.code.datastrut.Iterator;
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 
 public class StackImpl<Type> implements Stack<Type> {
 
@@ -13,6 +16,7 @@ public class StackImpl<Type> implements Stack<Type> {
     }
 
     public StackImpl(Type initialTop) {
+        Preconditions.checkArgument(initialTop != null, "The initial value must be provided.");
         this.push(initialTop);
     }
 
@@ -23,6 +27,8 @@ public class StackImpl<Type> implements Stack<Type> {
 
     @Override
     public void push(Type newElement) {
+        Preconditions.checkArgument(newElement != null, "The element to be pushed must be provided.");
+
         Element<Type> newTop = new Element<Type>(newElement);
         if (this.size == 0) {
             this.top = newTop;
@@ -35,9 +41,8 @@ public class StackImpl<Type> implements Stack<Type> {
 
     @Override
     public Type pop() {
-        if (this.size == 0) {
-            throw new IllegalStateException("The stack is empty!");
-        }
+        Preconditions.checkState(!this.isEmpty(), "Stack underflow: There is no elements to be popped.");
+
         Type topValue = this.top.getValue();
         this.top = this.top.getNext();
         this.size--;
@@ -46,6 +51,7 @@ public class StackImpl<Type> implements Stack<Type> {
 
     @Override
     public Type peek() {
+        Preconditions.checkState(!this.isEmpty(), "There is no elements in the top of the stack.");
         return this.top.getValue();
     }
 
@@ -68,7 +74,7 @@ public class StackImpl<Type> implements Stack<Type> {
     }
 
     @Override
-    public Iterator<Type> getIterator() {
+    public Iterator<Type> iterator() {
         Iterator<Type> it = new Iterator<Type>() {
 
             private Element<Type> current = top;
@@ -79,12 +85,16 @@ public class StackImpl<Type> implements Stack<Type> {
             }
 
             @Override
-            public Type getNext() {
+            public Type next() {
                 Type val = this.current.getValue();
                 this.current = this.current.getNext();
                 return val;
             }
-            
+
+            @Override
+            public void remove() {
+                // TODO Auto-generated method stub
+            }
         };
         return it;
     }
@@ -93,20 +103,19 @@ public class StackImpl<Type> implements Stack<Type> {
         StackImpl<Integer> plates = new StackImpl<Integer>();
         for (int i = 1; i <= 10; i++) {
             plates.push(i);
-            System.out.println("Current State");
-            System.out.println(plates);
+            System.out.println("Current State: " + Joiner.on(", ").join(plates));
         }
 
-        Iterator<Integer> it = plates.getIterator();
-        System.out.print("Iterating... ");
-        while(it.hasNext()) {
-            System.out.print(it.getNext() + ", ");
+        System.out.println("Elements joined by Google Guava: " + Joiner.on(" <- ").join(plates));
+        System.out.print("foreach... ");
+        for (Integer plate : plates) {
+            System.out.print(plate + ", ");
         }
-        System.out.println();
 
+        System.out.println("");
+        System.out.println("Removing elements... ");
         while(plates.size() > 0) {
-            System.out.println("Current State");
-            System.out.println(plates);
+            System.out.println("Current State: " + Joiner.on(", ").join(plates));
             Integer removedVal = plates.pop();
             System.out.println("Removed Val = " + removedVal);
         }

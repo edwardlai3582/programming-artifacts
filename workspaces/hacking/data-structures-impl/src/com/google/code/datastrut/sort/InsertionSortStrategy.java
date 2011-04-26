@@ -1,5 +1,7 @@
 package com.google.code.datastrut.sort;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Sorts the given arrayList with the given comparator.
  * The description of the algorithm can be seen at http://www.youtube.com/watch?v=c4BRHC7kTaQ
@@ -30,12 +32,13 @@ public final class InsertionSortStrategy extends AbstractSortStrategy {
      * @param comparator is the comparator that compares elements of the given type.
      */
     public <Type> void sort(Type[] arrayList, Comparator<Type> comparator) {
-        if (arrayList == null || comparator == null) {
-            throw new IllegalArgumentException("You need to provide both the list and the comparator.");
-        }
+        Preconditions.checkArgument(arrayList != null, "The array must be provided.");
+        Preconditions.checkArgument(comparator != null, "The comparator must be provided.");
+
         if (arrayList.length == 0 || arrayList.length == 1) {
             return;
         }
+
         for (int i = 1; i < arrayList.length; i++) {
             int j = i;
             while (j > 0 && arrayList[j] != null && arrayList[j - 1] != null && 

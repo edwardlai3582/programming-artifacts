@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.google.code.datastrut.list.ArrayList;
+import com.google.common.base.Preconditions;
 
 public abstract class AbstractSortStrategy {
 
@@ -34,6 +35,10 @@ public abstract class AbstractSortStrategy {
      * @param index2 is the index 2
      */
     public static <Type> void swap(Type[] arrayList, int index1, int index2) {
+        Preconditions.checkArgument(arrayList != null, "The array list must be provided to swap.");
+        Preconditions.checkElementIndex(index1, arrayList.length, "The index 1 is out of the array bounds.");
+        Preconditions.checkElementIndex(index2, arrayList.length, "The index 2 is out of the array bounds.");
+
         Type aux = arrayList[index2];
         arrayList[index2] = arrayList[index1];
         arrayList[index1] = aux;
@@ -49,7 +54,7 @@ public abstract class AbstractSortStrategy {
             arrayIntegers[i] = rand.nextInt(100);
         }
         ArrayList<Integer> randomList = ArrayList.makeNewArrayList(arrayIntegers);
-        System.out.println("Bubble sorting the array List " + randomList);
+        System.out.println("Bubble sorting the array " + randomList);
         randomList.bubbleSort(ComparatorFactory.makeIntegerComparator());
         System.out.println("Bubble Sorted array: " + randomList);
 

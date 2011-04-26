@@ -1,5 +1,8 @@
 package com.google.code.datastrut;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+
 public class NavigatableElement<Type> {
 
     private NavigatableElement<Type> previous;
@@ -7,6 +10,7 @@ public class NavigatableElement<Type> {
     private NavigatableElement<Type> next;
 
     public NavigatableElement(Type newValue) {
+        Preconditions.checkArgument(newValue != null, "The new value must be provided.");
         this.value = newValue;
     }
 
@@ -57,7 +61,8 @@ public class NavigatableElement<Type> {
 
     @Override
     public String toString() {
-        return "ListElement [previous=" + previous + ", value=" + value + ", next=" + next + "]";
+        return Objects.toStringHelper(this).add("value", this.value).add("next", this.next)
+            .add("previous", previous).toString();
     }
 
 }

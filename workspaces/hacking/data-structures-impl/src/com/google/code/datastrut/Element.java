@@ -1,15 +1,22 @@
 package com.google.code.datastrut;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+
 public class Element<Type> {
 
     protected Type value;
     protected Element<Type> next;
 
     public Element(Type newValue) {
+        Preconditions.checkArgument(newValue != null, "The new value must be provided.");
         this.value = newValue;
     }
 
     public Element(Type newValue, Element<Type> next) {
+        Preconditions.checkArgument(newValue != null, "The new value must be provided.");
+        Preconditions.checkArgument(next != null, "The next element value must be provided.");
+
         this.value = newValue;
         this.next = next;
     }
@@ -59,6 +66,6 @@ public class Element<Type> {
 
     @Override
     public String toString() {
-        return "Node [value=" + value + ", next=" + next + "]";
+        return Objects.toStringHelper(this).add("value", this.value).add("next", this.next).toString();
     }
 }
