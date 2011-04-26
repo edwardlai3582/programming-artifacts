@@ -43,11 +43,7 @@ public class QueueImpl<Type> implements Queue<Type> {
         StringBuilder builder = new StringBuilder();
         builder.append("Head - " + this.head);
         builder.append("Tail - " + this.tail);
-        Element<Type> current = this.tail;
-        while(current != null && current.getNext() != null) {
-            builder.append(" " + current.getNext());
-            current = current.getNext();
-        }
+        Joiner.on(", ").appendTo(builder, this);
         return builder.toString();
     }
 
