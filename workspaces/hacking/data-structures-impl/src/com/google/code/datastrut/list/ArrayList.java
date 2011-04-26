@@ -2,6 +2,8 @@ package com.google.code.datastrut.list;
 
 import com.google.code.datastrut.IndexOutOfBoundsException;
 import com.google.code.datastrut.Iterator;
+import com.google.code.datastrut.sort.AbstractSortStrategy;
+import com.google.code.datastrut.sort.Comparator;
 import com.google.code.datastrut.sort.Sortable;
 
 public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Type> {
@@ -14,7 +16,19 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
         this.capacity = capacity;
         this.arrayList = makeNewArray(capacity);
     }
-    
+
+    private ArrayList(Type[] initialArray) {
+        this.capacity = initialArray.length;
+        this.arrayList = makeNewArray(capacity);
+        for(Type element : initialArray) {
+            this.add(element);
+        }
+    }
+
+    public static <Type> ArrayList<Type> makeNewArrayList(Type[] newArray) {
+        return new ArrayList<Type>(newArray);
+    }
+
     /**
      * @param capacity is the number of initial elements.
      * @return a new instance of the array of type with the given capacity.
@@ -73,6 +87,25 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
     }
 
     @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("ArrayList capacity = ");
+        builder.append(capacity);
+        builder.append(" currentSize = ");
+        builder.append(currentSize );
+
+        builder.append(" [");
+        for (int i = 0; i < this.arrayList.length - 1; i++) {
+            if (arrayList[i] != null) {
+                builder.append(arrayList[i] + ", ");
+            }
+        }
+        builder.delete(builder.length() - 2, builder.length());
+        builder.append("]");
+        return builder.toString();
+    }
+
+    @Override
     public Iterator<Type> getIterator() {
         Iterator<Type> it = new Iterator<Type>() {
 
@@ -89,6 +122,26 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
             }
         };
         return it;
+    }
+
+    @Override
+    public void bubbleSort(Comparator<Type> comparator) {
+        AbstractSortStrategy.Algorithm.BUBBLE_SORT.sort(this.arrayList, comparator);
+    }
+
+    @Override
+    public void insertionSort(Comparator<Type> comparator) {
+        AbstractSortStrategy.Algorithm.INSERTION_SORT.sort(this.arrayList, comparator);
+    }
+
+    @Override
+    public void quickSort(Comparator<Type> comparator) {
+        AbstractSortStrategy.Algorithm.QUICK_SORT.sort(this.arrayList, comparator);
+    }
+
+    @Override
+    public void mergeSort(Comparator<Type> comparator) {
+        AbstractSortStrategy.Algorithm.MERGE_SORT.sort(this.arrayList, comparator);
     }
 
     public static void main(String[] args) {
@@ -140,30 +193,6 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
             System.out.println(" -> Removing " + value);
             list.remove(value);
         }
-    }
-
-    @Override
-    public List<Sortable<Type>> bubbleSort() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Sortable<Type>> insertionSort() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Sortable<Type>> quickSort() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Sortable<Type>> mergeSort() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }
