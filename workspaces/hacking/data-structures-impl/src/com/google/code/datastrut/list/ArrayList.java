@@ -155,8 +155,8 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
 
     @Override
     public void cocktailSort(Comparator<Type> comparator) {
-        // TODO Auto-generated method stub
-        
+        AbstractSortStrategy.Algorithm.COCKTAIL_SORT.sort(this.arrayList, 
+                Preconditions.checkNotNull(comparator , "The comparator must be provided."));
     }
 
     @Override
