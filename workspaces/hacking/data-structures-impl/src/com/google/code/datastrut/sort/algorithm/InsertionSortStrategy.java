@@ -1,5 +1,7 @@
-package com.google.code.datastrut.sort;
+package com.google.code.datastrut.sort.algorithm;
 
+import com.google.code.datastrut.sort.AbstractSortStrategy;
+import com.google.code.datastrut.sort.Comparator;
 import com.google.common.base.Preconditions;
 
 /**

@@ -142,9 +142,21 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
     }
 
     @Override
+    public void selectionSort(Comparator<Type> comparator) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
     public void bubbleSort(Comparator<Type> comparator) {
         AbstractSortStrategy.Algorithm.BUBBLE_SORT.sort(this.arrayList,
                 Preconditions.checkNotNull(comparator , "The comparator must be provided."));
+    }
+
+    @Override
+    public void cocktailSort(Comparator<Type> comparator) {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
