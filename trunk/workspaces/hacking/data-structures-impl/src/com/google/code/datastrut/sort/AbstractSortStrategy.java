@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.code.datastrut.list.ArrayList;
 import com.google.code.datastrut.sort.algorithm.BubbleSortStrategy;
+import com.google.code.datastrut.sort.algorithm.CocktailSortStrategy;
 import com.google.code.datastrut.sort.algorithm.InsertionSortStrategy;
 import com.google.code.datastrut.sort.algorithm.SelectionSortStrategy;
 import com.google.common.base.Preconditions;
@@ -22,6 +23,8 @@ public abstract class AbstractSortStrategy {
         SELECTION_SORT(SelectionSortStrategy.getInstance()),
 
         BUBBLE_SORT(BubbleSortStrategy.getInstance()),
+
+        COCKTAIL_SORT(CocktailSortStrategy.getInstance()),
 
         INSERTION_SORT(InsertionSortStrategy.getInstance()),
 
@@ -83,9 +86,9 @@ public abstract class AbstractSortStrategy {
             arrayIntegers[i] = rand.nextInt(100);
         }
         ArrayList<Integer> randomList = ArrayList.makeNewArrayList(arrayIntegers);
-        System.out.println("Bubble sorting the array " + randomList);
+        System.out.println("Bubble sorting the list " + randomList);
         randomList.bubbleSort(ComparatorFactory.makeIntegerComparator());
-        System.out.println("Bubble Sorted array: " + randomList);
+        System.out.println("Bubble Sorted list: " + randomList);
 
         for (int i = 0; i < numbers; i++) {
             arrayIntegers[i] = rand.nextInt(100);
@@ -104,6 +107,15 @@ public abstract class AbstractSortStrategy {
 
         AbstractSortStrategy.Algorithm.BUBBLE_SORT.sort(arrayIntegers, ComparatorFactory.makeIntegerComparator());
         System.out.println("Bubble Sorted array: " + Arrays.toString(arrayIntegers));
+
+        for (int i = 0; i < numbers; i++) {
+            arrayIntegers[i] = rand.nextInt(100);
+        }
+        System.out.println("------------------------------");
+        System.out.println("Cocktail sorting the array " + Arrays.toString(arrayIntegers));
+
+        AbstractSortStrategy.Algorithm.COCKTAIL_SORT.sort(arrayIntegers, ComparatorFactory.makeIntegerComparator());
+        System.out.println("Cocktail Sorted array: " + Arrays.toString(arrayIntegers));
 
         for (int i = 0; i < numbers; i++) {
             arrayIntegers[i] = rand.nextInt(100);
