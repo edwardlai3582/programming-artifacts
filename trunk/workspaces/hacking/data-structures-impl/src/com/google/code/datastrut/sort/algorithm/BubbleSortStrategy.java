@@ -1,5 +1,7 @@
-package com.google.code.datastrut.sort;
+package com.google.code.datastrut.sort.algorithm;
 
+import com.google.code.datastrut.sort.AbstractSortStrategy;
+import com.google.code.datastrut.sort.Comparator;
 import com.google.common.base.Preconditions;
 
 /**
@@ -38,6 +40,7 @@ public final class BubbleSortStrategy extends AbstractSortStrategy {
         if (arrayList.length == 0 || arrayList.length == 1) {
             return;
         }
+        boolean alreadySorted = true;
         for (int i = 0; i < arrayList.length; i++) {
             for (int j = 0; j < arrayList.length-1; j++) {
                 if (arrayList[j] == null || arrayList[j + 1] == null) {
@@ -45,7 +48,11 @@ public final class BubbleSortStrategy extends AbstractSortStrategy {
                 }
                 if (comparator.compare(arrayList[j], arrayList[j + 1]) > 0) {
                     swap(arrayList, j, j + 1);
+                    alreadySorted = false;
                 }
+            }
+            if (alreadySorted) {
+                break;
             }
         }
     }

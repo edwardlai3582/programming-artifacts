@@ -4,24 +4,53 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.google.code.datastrut.list.ArrayList;
+import com.google.code.datastrut.sort.algorithm.BubbleSortStrategy;
+import com.google.code.datastrut.sort.algorithm.InsertionSortStrategy;
+import com.google.code.datastrut.sort.algorithm.SelectionSortStrategy;
 import com.google.common.base.Preconditions;
 
 public abstract class AbstractSortStrategy {
 
+    /**
+     * The different sorting algorithms to be used.
+     * 
+     * @author Marcello de Sales (marcello.desales@gmail.com)
+     *
+     */
     public static enum Algorithm {
 
-        BUBBLE_SORT,
-        INSERTION_SORT,
-        QUICK_SORT,
-        MERGE_SORT;
+        SELECTION_SORT(SelectionSortStrategy.getInstance()),
 
+        BUBBLE_SORT(BubbleSortStrategy.getInstance()),
+
+        INSERTION_SORT(InsertionSortStrategy.getInstance()),
+
+        QUICK_SORT(null),
+
+        MERGE_SORT(null);
+
+        /**
+         * The selected strategy.
+         */
+        private AbstractSortStrategy strategy;
+
+        /**
+         * Constructs one of the enumerated sorting algorithms with a given strategy.
+         * @param algorithmStrategy is the algorithm strategy implementation.
+         */
+        private Algorithm(AbstractSortStrategy algorithmStrategy) {
+            this.strategy = algorithmStrategy;
+        }
+
+        /**
+         * Sorts the given array list with the given comparator using associated 
+         * implementation.
+         * @param <Type>
+         * @param arrayList
+         * @param comparator
+         */
         public <Type> void sort(Type[] arrayList, Comparator<Type> comparator) {
-            if (this == BUBBLE_SORT) {
-                BubbleSortStrategy.getInstance().sort(arrayList, comparator);
-
-            } else if (this == INSERTION_SORT) {
-                InsertionSortStrategy.getInstance().sort(arrayList, comparator);
-            }
+            this.strategy.sort(arrayList, comparator);
         }
     }
 
@@ -57,6 +86,15 @@ public abstract class AbstractSortStrategy {
         System.out.println("Bubble sorting the array " + randomList);
         randomList.bubbleSort(ComparatorFactory.makeIntegerComparator());
         System.out.println("Bubble Sorted array: " + randomList);
+
+        for (int i = 0; i < numbers; i++) {
+            arrayIntegers[i] = rand.nextInt(100);
+        }
+        System.out.println("------------------------------");
+        System.out.println("Selection sorting the array " + Arrays.toString(arrayIntegers));
+
+        AbstractSortStrategy.Algorithm.SELECTION_SORT.sort(arrayIntegers, ComparatorFactory.makeIntegerComparator());
+        System.out.println("Selection Sorted array: " + Arrays.toString(arrayIntegers));
 
         for (int i = 0; i < numbers; i++) {
             arrayIntegers[i] = rand.nextInt(100);
