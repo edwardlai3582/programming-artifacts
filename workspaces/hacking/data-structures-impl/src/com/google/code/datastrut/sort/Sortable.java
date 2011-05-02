@@ -27,6 +27,11 @@ public interface Sortable<Type> {
      * @param comparator
      */
     void insertionSort(Comparator<Type> comparator);
+    /**
+     * Sorts a sortable object using the an insertion sort algorithm, but using buckets.
+     * @param comparator
+     */
+    void bucketSort(Comparator<Type> comparator);
     void quickSort(Comparator<Type> comparator);
     void mergeSort(Comparator<Type> comparator);
 }

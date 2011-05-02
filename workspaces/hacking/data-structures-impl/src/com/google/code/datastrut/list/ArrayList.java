@@ -140,11 +140,21 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
         };
         return it;
     }
+    
+
+    @Override
+    public Type[] toArray() {
+        Type[] array = (Type[])new Object[this.arrayList.length];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = this.getElementAt(i);
+        }
+        return array;
+    }
 
     @Override
     public void selectionSort(Comparator<Type> comparator) {
-        // TODO Auto-generated method stub
-        
+        AbstractSortStrategy.Algorithm.SELECTION_SORT.sort(this.arrayList,
+                Preconditions.checkNotNull(comparator , "The comparator must be provided."));
     }
 
     @Override
@@ -166,14 +176,20 @@ public class ArrayList<Type> implements List<Type>, Indexable<Type>, Sortable<Ty
     }
 
     @Override
-    public void quickSort(Comparator<Type> comparator) {
-        AbstractSortStrategy.Algorithm.QUICK_SORT.sort(this.arrayList, 
+    public void bucketSort(Comparator<Type> comparator) {
+        AbstractSortStrategy.Algorithm.BUCKET_SORT.sort(this.arrayList, 
                 Preconditions.checkNotNull(comparator , "The comparator must be provided."));
     }
 
     @Override
     public void mergeSort(Comparator<Type> comparator) {
         AbstractSortStrategy.Algorithm.MERGE_SORT.sort(this.arrayList, 
+                Preconditions.checkNotNull(comparator , "The comparator must be provided."));
+    }
+
+    @Override
+    public void quickSort(Comparator<Type> comparator) {
+        AbstractSortStrategy.Algorithm.QUICK_SORT.sort(this.arrayList, 
                 Preconditions.checkNotNull(comparator , "The comparator must be provided."));
     }
 

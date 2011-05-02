@@ -8,6 +8,7 @@ import com.google.code.datastrut.sort.algorithm.BubbleSortStrategy;
 import com.google.code.datastrut.sort.algorithm.CocktailSortStrategy;
 import com.google.code.datastrut.sort.algorithm.InsertionSortStrategy;
 import com.google.code.datastrut.sort.algorithm.SelectionSortStrategy;
+import com.google.code.datastrut.sort.algorithm.BucketInsertionSortStrategy;
 import com.google.common.base.Preconditions;
 
 public abstract class AbstractSortStrategy {
@@ -28,9 +29,16 @@ public abstract class AbstractSortStrategy {
 
         INSERTION_SORT(InsertionSortStrategy.getInstance()),
 
+        BUCKET_SORT(BucketInsertionSortStrategy.getInstance()),
+
+        // TODO: to be implemented (Modified MergeSort from OpenJDK)
+        MERGE_SORT(null),
+
+        // TODO: Implement 1 pivot, "Dual-Pivot" (Java 6)
         QUICK_SORT(null),
 
-        MERGE_SORT(null);
+        // TODO: Implemented in Python, Android and Java 7.
+        TIM_SORT(null);
 
         /**
          * The selected strategy.
@@ -125,5 +133,15 @@ public abstract class AbstractSortStrategy {
 
         AbstractSortStrategy.Algorithm.INSERTION_SORT.sort(arrayIntegers, ComparatorFactory.makeIntegerComparator());
         System.out.println("Insertion Sorted array: " + Arrays.toString(arrayIntegers));
+
+        String[] languages = new String[]{"Smalltalk", "Java", "C++", "Python", "LaTex", "Go", "JADE", "Scala", "Basic", "perl", 
+                "Erlang", "C", "Groovy", "R", "Javascript", "PHP", "XML", "Ada", "HTML", "Lisp", "Pascal", 
+                "Objective C", "Fortran", "ASP", "ML", "Haskel", "Assembly", "Octave", "Lua", 
+                "Visual Basic"};
+        System.out.println("------------------------------");
+        System.out.println("Bucket Sorting the array " + Arrays.toString(languages));
+
+        AbstractSortStrategy.Algorithm.BUCKET_SORT.sort(languages, ComparatorFactory.makeStringComparator());
+        System.out.println("Bucket Sorted array: " + Arrays.toString(languages));
     }
 }
