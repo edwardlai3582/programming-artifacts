@@ -6,7 +6,8 @@ import com.google.common.base.Preconditions;
 
 /**
  * Sorts the given arrayList with the given comparator.
- * The description of the algorithm can be seen at http://www.youtube.com/watch?v=c4BRHC7kTaQ
+ * The description of the algorithm can be seen at http://www.youtube.com/watch?v=3orUYqcaEEQ and
+ * http://www.youtube.com/watch?v=c4BRHC7kTaQ
  *
  * @author Marcello de Sales (marcello.desales@gmail.com)
  *
@@ -28,7 +29,8 @@ public final class InsertionSortStrategy extends AbstractSortStrategy {
 
     /**
      * Sorts the given arrayList with the given comparator.
-     * The description of the algorithm can be seen at http://www.youtube.com/watch?v=c4BRHC7kTaQ
+     * The description of the algorithm can be seen at http://www.youtube.com/watch?v=3orUYqcaEEQ
+     * and http://www.youtube.com/watch?v=c4BRHC7kTaQ
      * @param <Type> any type.
      * @param arrayList the array list of the given type.
      * @param comparator is the comparator that compares elements of the given type.
