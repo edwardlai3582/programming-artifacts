@@ -6,7 +6,8 @@ import com.google.common.base.Preconditions;
 
 /**
  * Sorts the given arrayList with the given comparator.
- * The description of the algorithm can be seen at http://www.youtube.com/watch?v=P00xJgWzz2c
+ * The description of the algorithm can be seen at http://www.youtube.com/watch?v=o1KPDllRV94 and 
+ * http://www.youtube.com/watch?v=P00xJgWzz2c
  *
  * @author Marcello de Sales (marcello.desales@gmail.com)
  *
