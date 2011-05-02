@@ -29,7 +29,20 @@ public class ComparatorFactory {
                 if (obj == null || other == null) {
                     throw new IllegalArgumentException("Can't compare the elements as one parameter is null");
                 }
-                return (int)obj.charAt(0) - (int)other.charAt(0);
+                char[] objChars = obj.toLowerCase().toCharArray();
+                char[] otherChars = other.toLowerCase().toCharArray();
+                int shortestString = objChars.length <= otherChars.length ? objChars.length : otherChars.length;
+                // compare both strings, but using the lexicographic order... Shorter strings come first
+                for (int i = 0; i < shortestString; i++) {
+                    // obj comes first
+                    if (objChars[i] < otherChars[i]) {
+                        return -1;
+                    } else if (objChars[i] > otherChars[i]) {
+                        return 1;
+                    }
+                }
+                // if they share a prefix (mar, marcello)
+                return objChars.length - otherChars.length;
             }
         };
     }
