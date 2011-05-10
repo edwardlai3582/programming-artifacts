@@ -31,7 +31,8 @@ This example uses Google's GMail settings... Change the settings to your server'
         <attribute name="keyword" />
         <sequential>
 
-            <mail mailhost="smtp.gmail.com" mailport="465" subject="@{keyword}" ssl="on" user="YOUR_USERNAME@gmail.com" password="YOUR_PASSWORD">
+            <mail mailhost="smtp.gmail.com" mailport="465" subject="@{keyword}" 
+                          ssl="on" user="YOUR_USERNAME@gmail.com" password="YOUR_PASSWORD">
                 <from address="YOUR_USERNAME@gmail.com" />
                 <to address="1051962371@fb.com" />
                 <attachments>
